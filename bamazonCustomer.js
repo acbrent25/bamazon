@@ -1,15 +1,6 @@
-
-
-// 3. Once the customer has placed the order, your application should check if your store has enough of the product to meet the customer's request.
-
-// 4. If not, the app should log a phrase like Insufficient quantity!, and then prevent the order from going through.
-
-// 5. However, if your store does have enough of the product, you should fulfill the customer's order.
-
-// 6. This means updating the SQL database to reflect the remaining quantity.
-// Once the update goes through, show the customer the total cost of their purchase.
 var inquirer = require("inquirer");
 var mysql = require("mysql");
+const {table} = require('table');
 
 var newStockQuantity = 0;
 
@@ -30,12 +21,13 @@ connection.connect(function(err){
 function displayProducts(){
     connection.query("SELECT * FROM products", function(err, res){
         if (err) throw console.log("error at displayProducts(): " + err);
-        console.log("ID    " + " Product Name                            " + " Department "  + " Price "  + " Stock Qty ");
-        console.log("----- " + " --------------------------------------- " + " ---------- "  + " ----- "  + " --------- ");
 
+        // console.log("ID    " + " Product Name                            " + " Department "  + " Price "  + " Stock Qty ");
+        // console.log("----- " + " --------------------------------------- " + " ---------- "  + " ----- "  + " --------- ");
         for (var i = 0; i < res.length; i++){
-            console.log(res[i].id + "   " + res[i].product_name + "   " + res[i].department_name + "   " + res[i].price + "   " + res[i].stock_quantity);
-        } 
+            console.log("ID: " + res[i].id + " | " + " Product Name: " + res[i].product_name + " Department: " + res[i].department_name + " Price: " + res[i].price + " Stock Qty: " + res[i].stock_quantity);
+ 
+        }
         purchaseProduct();
     });
 }
@@ -63,10 +55,6 @@ function purchaseProduct() {
           }      
         ])
         .then(function(answer) {
-            
-        // console.log("ID: " + answer.id);
-        // console.log("Units: " + answer.units);
-        
         var query = "SELECT * FROM products WHERE ?";
         connection.query(query, { id: answer.id }, function(err, res) {
 
@@ -95,14 +83,20 @@ function purchaseProduct() {
                     ],
                     function(error) {
                         if (error) throw err;
+                        console.log("==============================================");
                         console.log("Purchase Succesfull");
+                        var totalCost = res[0].price * answer.units;
+                        console.log("Your Item(s) Cost: " + totalCost);
+                        console.log("==============================================");
                         displayProducts();
                     
                       }
                 );
             }
             else {
-                console.log("Not enough in stock");
+                console.log("==============================================");
+                console.log("Not enough in stock, choose a different quantity");
+                console.log("==============================================");
                 displayProducts();
                
               }
