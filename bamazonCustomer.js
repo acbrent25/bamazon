@@ -22,8 +22,6 @@ function displayProducts(){
     connection.query("SELECT * FROM products", function(err, res){
         if (err) throw console.log("error at displayProducts(): " + err);
 
-        // console.log("ID    " + " Product Name                            " + " Department "  + " Price "  + " Stock Qty ");
-        // console.log("----- " + " --------------------------------------- " + " ---------- "  + " ----- "  + " --------- ");
         for (var i = 0; i < res.length; i++){
             console.log("ID: " + res[i].id + " | " + " Product Name: " + res[i].product_name + " Department: " + res[i].department_name + " Price: " + res[i].price + " Stock Qty: " + res[i].stock_quantity);
  
@@ -58,12 +56,6 @@ function purchaseProduct() {
         var query = "SELECT * FROM products WHERE ?";
         connection.query(query, { id: answer.id }, function(err, res) {
 
-            console.log("ID from Inquirer: " + answer.id);
-            console.log("Units from Inquirer: " + answer.units);
-
-            console.log("id from DB: " + res[0].id);
-            console.log("stock quantity from DB: " + res[0].stock_quantity);
-
             var dbStock = res[0].stock_quantity;
             var reqStock = answer.units;
 
@@ -84,9 +76,11 @@ function purchaseProduct() {
                     function(error) {
                         if (error) throw err;
                         console.log("==============================================");
+                        console.log("\n\r");
                         console.log("Purchase Succesfull");
                         var totalCost = res[0].price * answer.units;
                         console.log("Your Item(s) Cost: " + totalCost);
+                        console.log("\n\r");
                         console.log("==============================================");
                         displayProducts();
                     
@@ -95,7 +89,9 @@ function purchaseProduct() {
             }
             else {
                 console.log("==============================================");
+                console.log("\n\r");
                 console.log("Not enough in stock, choose a different quantity");
+                console.log("\n\r");
                 console.log("==============================================");
                 displayProducts();
                
