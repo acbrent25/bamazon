@@ -39,7 +39,7 @@ function chooseYourAdventure() {
                 break;
       
               case "View Low Inventory":
-                console.log("View Low Inventory");
+                viewLowInventory();
                 break;
       
               case "Add to Inventory":
@@ -64,6 +64,19 @@ function displayProducts(){
         
         for (var i = 0; i < res.length; i++){
             console.log("ID: " + res[i].id + " | " + " Product Name: " + res[i].product_name + " Department: " + res[i].department_name + " Price: " + res[i].price + " Stock Qty: " + res[i].stock_quantity);
+        }
+    });
+}
+
+
+function viewLowInventory(){
+    connection.query("SELECT * FROM products", function(err, res){
+        if (err) throw console.log("error at displayProducts(): " + err);
+        
+        for (var i = 0; i < res.length; i++){
+            if (res[i].stock_quantity <= 5){
+                console.log("ID: " + res[i].id + " | " + " Product Name: " + res[i].product_name + " Department: " + res[i].department_name + " Price: " + res[i].price + " Stock Qty: " + res[i].stock_quantity);
+            } 
         }
     });
 }
