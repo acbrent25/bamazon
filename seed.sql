@@ -1,5 +1,13 @@
 USE bamazonDB;
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("13pc Mess Kit", "Camp Kitchen", 25.95, 10);
-("Life Straw", "Survival", 17.67, 32);
+VALUES ("Black Tent", "Camping Gear", 75.99, 10),
+("Red Delux Tent", "Camping Gear", 85.99, 10),
+("Blue Backpacking Tent", "Camping Gear", 65.99, 10),
+("Backpacking Stove", "Camping Gear", 25.49, 10),
+("Cold Weather Sleeping Bag", "Camping Gear", 55.00, 10),
+("Solar Lamp", "Camping Gear", 15.99, 10),
+("Camping Cooler", "Camping Gear", 34.25, 10),
+("Bear Spray", "Camping Gear", 12.99, 10),
+("Hatchet", "Camping Gear", 24.99, 10),
+("Girlscout Fluid", "Camping Gear", 3.99, 10);

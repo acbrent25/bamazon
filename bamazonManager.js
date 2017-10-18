@@ -63,7 +63,6 @@ function displayProducts(){
         if (err) throw console.log("error at displayProducts(): " + err);
         
         for (var i = 0; i < res.length; i++){
-            console.log("\n\r");
             console.log("ID: " + res[i].id + " | " + " Product Name: " + res[i].product_name + " | " + " Department: " + res[i].department_name + " | " + " Price: " + res[i].price + " | " + " Stock Qty: " + res[i].stock_quantity);
         }
         chooseYourAdventure();
@@ -75,19 +74,20 @@ function displayProducts(){
 function viewLowInventory(){
     connection.query("SELECT * FROM products", function(err, res){
         if (err) throw console.log("error at displayProducts(): " + err);
-        
+        console.log("==============================================");
+        console.log("LOW INVENTORY - RESTOCK SOON");
         for (var i = 0; i < res.length; i++){
             if (res[i].stock_quantity <= 5){
                 console.log("ID: " + res[i].id + " | " + " Product Name: " + res[i].product_name + " Department: " + res[i].department_name + " Price: " + res[i].price + " Stock Qty: " + res[i].stock_quantity);
             } 
         }
+        console.log("==============================================");
         chooseYourAdventure();
     });
     
 }
 
 function addInventory() {
-    displayProducts();
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw console.log("connection error: " + err);
         
@@ -131,15 +131,13 @@ function addInventory() {
                         if (error) throw err;
                         completed === true;
                         console.log("==============================================");
-                        console.log("\n\r");
                         console.log("Stock QTY Updated");
-                        console.log("ID: " + res[0].id + " | " + " Product Name: " + res[0].product_name + " Department: " + res[0].department_name + " Price: " + res[0].price + " Stock Qty: " + res[0].stock_quantity)
-                        console.log("\n\r");
+                        console.log("ID: " + res[0].id + " | " + " Product Name: " + res[0].product_name + " Department: " + res[0].department_name + " Price: " + res[0].price + " Stock Qty: " + NewDbStock)
                         console.log("==============================================");
                     }
                 );
-
         });
         });// inquier.prompt
     });// conection.query  
   }// addToInventory()
+  
