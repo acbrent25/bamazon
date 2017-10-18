@@ -47,7 +47,7 @@ function chooseYourAdventure() {
                 break;
       
               case "Add New Product":
-                console.log("Add New Product");
+                addProduct();
                 break;
             }
           });
@@ -136,7 +136,69 @@ function addInventory() {
                         console.log("==============================================");
                     }
                 );
+                chooseYourAdventure();
         });
+        });// inquier.prompt
+    });// conection.query  
+  }// addToInventory()
+  
+
+  function addProduct() {
+    connection.query("SELECT * FROM products", function(err, res) {
+        if (err) throw console.log("connection error: " + err);
+        
+        inquirer.prompt([
+            { 
+              name: "product_name",
+              type: "input",            
+              message: "Enter the product name",
+            },
+            { 
+                name: "department_name",
+                type: "input",            
+                message: "Enter the department for this product",
+              },
+            {
+              name: "price",
+              type: "input",
+              message: "Enter the product price",
+              validate: function(value) {
+                  if (isNaN(value) === false) {
+                    return true;
+                  }
+                  return false;
+                }
+            },
+            {
+                name: "stock_quantity",
+                type: "input",
+                message: "Enter the product inventory",
+                validate: function(value) {
+                    if (isNaN(value) === false) {
+                      return true;
+                    }
+                    return false;
+                  }
+              },      
+        ])
+        .then(function(answer) {
+            connection.query(
+                "INSERT INTO products SET ?",
+                {
+                  product_name: answer.product_name,
+                  department_name: answer.department_name,
+                  price: answer.price,
+                  stock_quantity: answer.stock_quantity
+                },
+                    function(error) {
+                        if (error) throw err;
+                        
+                        console.log("==============================================");
+                        console.log("Your Item Was Added");
+                        console.log("==============================================");
+                    }
+                );
+                chooseYourAdventure();
         });// inquier.prompt
     });// conection.query  
   }// addToInventory()
