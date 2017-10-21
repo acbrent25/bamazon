@@ -93,7 +93,7 @@ function purchaseProduct() {
                         console.log("Your Item(s) Cost: " + totalCost);
                         console.log("\n\r");
                         console.log("==============================================");
-                        displayProducts();
+                        displayProducts()
                       } 
                 );
             }
@@ -103,8 +103,7 @@ function purchaseProduct() {
                 console.log("Not enough in stock, choose a different quantity");
                 console.log("\n\r");
                 console.log("==============================================");
-                
-                displayProducts();
+                displayProducts()
               }
         
         });
