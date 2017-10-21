@@ -56,7 +56,9 @@ function chooseYourAdventure() {
         });// inquier.prompt
     }
 
-  
+ /***********************
+ * DISPLAY ALL PRODUCTS
+ ***********************/ 
   
 function displayProducts(){
     connection.query("SELECT * FROM products", function(err, res){
@@ -70,6 +72,9 @@ function displayProducts(){
     
 }
 
+/***********************
+ * VIEW LOW INVENTORY
+ ***********************/
 
 function viewLowInventory(){
     connection.query("SELECT * FROM products", function(err, res){
@@ -86,6 +91,10 @@ function viewLowInventory(){
     });
     
 }
+
+/***********************
+ * ADD INVENTORY
+ ***********************/
 
 function addInventory() {
     connection.query("SELECT * FROM products", function(err, res) {
@@ -142,6 +151,9 @@ function addInventory() {
     });// conection.query  
   }// addToInventory()
   
+/***********************
+ * ADD NEW PRODUCTS
+ ***********************/
 
   function addProduct() {
     connection.query("SELECT * FROM products", function(err, res) {

@@ -1,5 +1,7 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
+var Table = require('easy-table')
+var t = new Table;
 
 var newStockQuantity = 0;
 
@@ -11,22 +13,33 @@ var connection = mysql.createConnection({
     database: "bamazonDB"
 });
 
+
+
+
 connection.connect(function(err){
     if (err) throw console.log("error at connection.connect: " + err);;
     console.log("connected as id: " + connection.threadId + "\n");
     displayProducts();
-})
+});
+
+
 
 function displayProducts(){
     connection.query("SELECT * FROM products", function(err, res){
         if (err) throw console.log("error at displayProducts(): " + err);
         
-        for (var i = 0; i < res.length; i++){
-            console.log("ID: " + res[i].id + " | " + " Product Name: " + res[i].product_name + " Department: " + res[i].department_name + " Price: " + res[i].price + " Stock Qty: " + res[i].stock_quantity);
-        }
-        purchaseProduct();
+        res.forEach(function(product) {
+            t.cell('Product Id', product.id)
+            t.cell('Product Name', product.product_name)
+            t.cell('Price', product.price, Table.number(2))
+            t.cell('Qty', product.stock_quantity)
+            t.newRow()
+          })          
+          console.log(t.toString())
     });
+    purchaseProduct();
 }
+
 
 // function which prompts the user for what action they should take
 function purchaseProduct() {
@@ -81,8 +94,7 @@ function purchaseProduct() {
                         console.log("\n\r");
                         console.log("==============================================");
                         displayProducts();
-                    
-                      }
+                      } 
                 );
             }
             else {
@@ -91,13 +103,12 @@ function purchaseProduct() {
                 console.log("Not enough in stock, choose a different quantity");
                 console.log("\n\r");
                 console.log("==============================================");
+                
                 displayProducts();
-               
               }
         
         });
-
-         
+       
         });// inquier.prompt
     });// conection.query
   }// purchaseProduct()
