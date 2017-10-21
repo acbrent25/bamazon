@@ -1,5 +1,7 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
+var Table = require('easy-table')
+var t = new Table;
 
 var newStockQuantity = 0;
 
@@ -63,10 +65,17 @@ function chooseYourAdventure() {
 function displayProducts(){
     connection.query("SELECT * FROM products", function(err, res){
         if (err) throw console.log("error at displayProducts(): " + err);
-        
-        for (var i = 0; i < res.length; i++){
-            console.log("ID: " + res[i].id + " | " + " Product Name: " + res[i].product_name + " | " + " Department: " + res[i].department_name + " | " + " Price: " + res[i].price + " | " + " Stock Qty: " + res[i].stock_quantity);
-        }
+
+        res.forEach(function(product) {
+            t.cell('Product Id', product.id)
+            t.cell('Product Name', product.product_name)
+            t.cell('Department', product.department_name)
+            t.cell('Price', product.price, Table.number(2))
+            t.cell('Qty', product.stock_quantity)
+            t.newRow()
+          })  
+          console.log(t.toString());
+
         chooseYourAdventure();
     });
     
@@ -83,9 +92,18 @@ function viewLowInventory(){
         console.log("LOW INVENTORY - RESTOCK SOON");
         for (var i = 0; i < res.length; i++){
             if (res[i].stock_quantity <= 5){
-                console.log("ID: " + res[i].id + " | " + " Product Name: " + res[i].product_name + " Department: " + res[i].department_name + " Price: " + res[i].price + " Stock Qty: " + res[i].stock_quantity);
-            } 
+            
+                t.cell('Product Id', res[i].id)
+                t.cell('Product Name', res[i].product_name)
+                t.cell('Department', res[i].department_name)
+                t.cell('Price', res[i].price, Table.number(2))
+                t.cell('Qty', res[i].stock_quantity)
+                t.newRow()
+
+            }            
+            
         }
+        console.log(t.toString());
         console.log("==============================================");
         chooseYourAdventure();
     });

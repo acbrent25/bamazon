@@ -28,7 +28,6 @@ connection.connect(function(err){
 function displayProducts(){
     connection.query("SELECT * FROM products", function(err, res){
         if (err) throw console.log("error at displayProducts(): " + err);
-       
         res.forEach(function(product) {
             t.cell('Product Id', product.id)
             t.cell('Product Name', product.product_name)
