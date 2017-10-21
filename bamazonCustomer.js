@@ -20,6 +20,7 @@ connection.connect(function(err){
     if (err) throw console.log("error at connection.connect: " + err);;
     console.log("connected as id: " + connection.threadId + "\n");
     displayProducts();
+    
 });
 
 
@@ -27,7 +28,7 @@ connection.connect(function(err){
 function displayProducts(){
     connection.query("SELECT * FROM products", function(err, res){
         if (err) throw console.log("error at displayProducts(): " + err);
-        
+       
         res.forEach(function(product) {
             t.cell('Product Id', product.id)
             t.cell('Product Name', product.product_name)
@@ -35,14 +36,15 @@ function displayProducts(){
             t.cell('Qty', product.stock_quantity)
             t.newRow()
           })          
-          console.log(t.toString())
+          console.log(t.toString());
+          purchaseProduct();
     });
-    purchaseProduct();
 }
 
 
 // function which prompts the user for what action they should take
 function purchaseProduct() {
+    
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw console.log("connection error: " + err);
         inquirer.prompt([
@@ -93,7 +95,7 @@ function purchaseProduct() {
                         console.log("Your Item(s) Cost: " + totalCost);
                         console.log("\n\r");
                         console.log("==============================================");
-                        displayProducts()
+                        purchaseProduct();
                       } 
                 );
             }
@@ -103,7 +105,7 @@ function purchaseProduct() {
                 console.log("Not enough in stock, choose a different quantity");
                 console.log("\n\r");
                 console.log("==============================================");
-                displayProducts()
+                purchaseProduct();
               }
         
         });
